@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finally Wait is Over ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-pink: #ffe4e6; /* Soft pink */
+            --accent-pink: #f43f5e; /* Rose 500 */
+            --light-pink: #fff1f2; /* Rose 50 */
+            --dark-pink: #e11d48; /* Rose 600 */
+            --blue-glow: rgba(59, 130, 246, 0.6); /* Blue for border glow */
+            --pink-glow: rgba(244, 63, 94, 0.4);
+            --transition-speed: 0.8s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ffe4e6, #fff1f2, #e0f2fe, #fce7f3);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden; /* Prevent manual scrolling between sections */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Sticker Styles */
+        .sticker {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 2rem;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            animation: floatSticker 6s ease-in-out infinite;
+        }
+
+        @keyframes floatSticker {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .sticker-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .sticker-2 { top: 20%; right: 10%; animation-delay: 1s; }
+        .sticker-3 { bottom: 15%; left: 10%; animation-delay: 2s; }
+        .sticker-4 { bottom: 10%; right: 5%; animation-delay: 3s; }
+        .sticker-5 { top: 50%; left: -5%; animation-delay: 4s; font-size: 3rem; opacity: 0.3; }
+        .sticker-6 { top: 40%; right: -5%; animation-delay: 5s; font-size: 3rem; opacity: 0.3; }
+
+        /* Overlay to add texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease-in-out, visibility var(--transition-speed);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Intro Screen */
+        #intro h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--accent-pink);
+            text-shadow: 0 0 10px var(--pink-glow);
+        }
+
+        .fade-in {
+            animation: fadeIn 2s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flip Card Styles */
+        .flip-card {
+            background-color: transparent;
+            width: 90vw;
+            max-width: 300px;
+            aspect-ratio: 9/16;
+            height: auto;
+            perspective: 1000px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px var(--pink-glow);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); /* Light blue gradient */
+            color: #0369a1; /* Darker blue for text contrast */
+            border: 2px solid rgba(186, 230, 253, 0.5);
+            padding: 20px;
+        }
+
+        .flip-card-back {
+            background-color: black;
+            transform: rotateY(180deg);
+            overflow: hidden;
+        }
+
+        .tap-hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #0369a1; /* Match the blue text */
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        /* Video Sections */
+        .video-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #0369a1; /* Blue for titles on blue background */
+        }
+
+        .video-title.calligraphy {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem; /* Larger for calligraphy */
+            font-weight: 700;
+            color: #0369a1;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Buttons */
+        .glow-button {
+            background: linear-gradient(45deg, var(--accent-pink), var(--dark-pink));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--pink-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 10;
+        }
+
+        .glow-button:active {
+            transform: scale(0.95);
+        }
+
+        .glow-button.secondary {
+            background: white;
+            color: var(--accent-pink);
+            border: 2px solid var(--accent-pink);
+        }
+
+        /* Letter Section */
+        .letter-box {
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 30px 20px;
+            border-radius: 20px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            text-align: left;
+        }
+
+        .stamp {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 60px;
+            height: auto;
+            transform: rotate(15deg);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+        }
+
+        .letter-content {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+        }
+
+        .letter-content p {
+            margin-bottom: 12px;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-pink);
+            margin-top: 15px;
+        }
+
+        .letter-btn {
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        /* Interaction Section */
+        .question {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: var(--accent-pink);
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        #soonBtn {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            z-index: 100; /* Higher z-index as it grows */
+        }
+
+        #neverBtn {
+            transition: transform 0.2s ease;
+            z-index: 50;
+        }
+
+        /* Hearts Animation */
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 20px;
+            color: #3b82f6; /* Blue heart 💙 */
+            animation: floatUp 4s ease-in forwards;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid var(--accent-pink);
+            opacity: 0;
+        }
+
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .popup-content p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--accent-pink);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Scrollbar styling for letter */
+        .letter-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .letter-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .letter-box::-webkit-scrollbar-thumb {
+            background: var(--accent-pink);
+            border-radius: 10px;
+        }
+
+        /* Responsive Design for PC/Desktop */
+        @media screen and (min-width: 768px) {
+            #intro h1 {
+                font-size: 4rem;
+            }
+
+            .flip-card {
+                max-width: 400px; /* Larger cards for PC */
+            }
+
+            .video-title {
+                font-size: 2.5rem;
+            }
+
+            .video-title.calligraphy {
+                font-size: 3.5rem;
+            }
+
+            .letter-box {
+                max-width: 600px; /* Better readability on wide screens */
+                padding: 50px;
+            }
+
+            .letter-content {
+                font-size: 1.3rem;
+            }
+
+            .signature {
+                font-size: 1.8rem;
+            }
+
+            .question {
+                font-size: 3rem;
+            }
+
+            .glow-button {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+
+            .popup {
+                max-width: 500px;
+            }
+
+            .popup-content p {
+                font-size: 2rem;
+            }
+
+            /* Adjust sticker sizes for PC */
+            .sticker {
+                font-size: 3rem;
+            }
+            .sticker-5, .sticker-6 {
+                font-size: 5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Background Stickers -->
+        <div class="sticker sticker-1">🌸</div>
+        <div class="sticker sticker-2">🎀</div>
+        <div class="sticker sticker-3">🍓</div>
+        <div class="sticker sticker-4">☁️</div>
+        <div class="sticker sticker-5">✨</div>
+        <div class="sticker sticker-6">🌷</div>
+
+        <!-- Intro Screen -->
+        <section id="intro" class="section active">
+            <div class="content">
+                <h1 class="fade-in">Finally wait is over ❤️</h1>
+            </div>
+        </section>
+
+        <!-- Video Section 1 -->
+        <section id="video1" class="section">
+            <div class="sticker" style="top: 5%; left: 15%;">🌹</div>
+            <div class="sticker" style="bottom: 10%; right: 15%;">💖</div>
+            <div class="content">
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h2 class="video-title">Meri Banogi kyaa!!?♥️</h2>
+                            <p class="tap-hint">Tap to open ❤️</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="video-container">
+                                <video loop playsinline>
+                                    <source src="Lyrics4.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="glow-button" onclick="nextSection('video2')">Tap for more surprises</button>
+            </div>
+        </section>
+
+        <!-- Video Section 2 -->
+        <section id="video2" class="section">
+            <div class="sticker" style="top: 10%; right: 5%;">🧸</div>
+            <div class="sticker" style="bottom: 5%; left: 5%;">🍭</div>
+            <div class="content">
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h2 class="video-title">After all my efforts!🫠</h2>
+                            <p class="tap-hint">Tap to see ❤️</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="video-container">
+                                <video loop playsinline>
+                                    <source src="Lyrics5.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="glow-button" onclick="nextSection('video3')">Go with the flow</button>
+            </div>
+        </section>
+
+        <!-- Video Section 3 -->
+        <section id="video3" class="section">
+            <div class="sticker" style="top: 15%; left: 10%;">🍓</div>
+            <div class="sticker" style="bottom: 10%; right: 5%;">🍦</div>
+            <div class="content">
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h2 class="video-title">My sweet strawberry 🍓!!</h2>
+                            <p class="tap-hint">Tap to reveal ❤️</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="video-container">
+                                <video loop playsinline>
+                                    <source src="Strawberry.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="glow-button" onclick="nextSection('letter')">Go with the flow</button>
+            </div>
+        </section>
+
+        <!-- Letter Section -->
+        <section id="letter" class="section">
+            <div class="sticker" style="top: 5%; right: 20%;">💌</div>
+            <div class="sticker" style="bottom: 5%; left: 15%;">🦋</div>
+            <div class="letter-box">
+                <img src="stamp.jpeg" alt="Stamp" class="stamp">
+                <div class="letter-content">
+                    <p>HEEYYY AISHWARYA SHAKYA!!♥️💐</p>
+                    <p>Finally... Aaj ap ek month baad online aa rhi ho… or sach bolu toh itna time kaise nikal gaya, mujhe khud samajh nahi aaya. Har din bas yahi lagta tha ki kaash apse baat ho jaaye kaash app online aa jao… kyunki apke bina sab nhi pura adhoora sa lagta h Kabhi kabhi random moments me ap yaad aati thi koi song sunte waqt koi reel dekhte waqt ya bas aise hi bina reason… aur phir ek chhoti si smile aa jaati thi face pe🤡😭. Shyd yehi hota hai jab koi special ho jaata hai life me ik everything 😎❤️ Long distance easy nahi hota ye ab samajh aaya… par ek cheez clear hai distance chahe jitna bhi ho, feelings bilkul same rehti hain… maybe aur strong ho jaati hain. Apki value aur zyada samajh aayi iss ek month me FRRR!!😭Main bas yeh kehna chahta hoon ki AP sirf ek person nahi ho in my life … you are my peace my habit nd everything...🤞🏻♥️ Or ab aaj jab ap online aa rhi ho… it honestly feels like finally everything is back to normal😭🙌🏻. Bas ab ek hi request h please itna long gap mat dena phir se, thoda mushkil ho jaata hai (actually bht zdaa!!)😭😭Missed you more than I can explain…..🫠🙃♥️</p>
+                    <p class="signature">I LOVE YOU MERIIII CHHOKRIII❤️‍🩹</p>
+                    <p class="signature">FOREVER ND EVER🫀🫂</p>
+                </div>
+                <button class="glow-button letter-btn" onclick="nextSection('video4')">Next ❤️</button>
+            </div>
+        </section>
+
+        <!-- Video Section 4 -->
+        <section id="video4" class="section">
+            <div class="content">
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h2 class="video-title calligraphy">MY LAADO ❤️</h2>
+                            <p class="tap-hint">One last surprise ❤️</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="video-container">
+                                <video loop playsinline>
+                                    <source src="Last.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="glow-button" onclick="nextSection('interaction')">Go with the flow</button>
+            </div>
+        </section>
+
+        <!-- Interaction Section -->
+        <section id="interaction" class="section">
+            <div class="content">
+                <h2 class="question">Milne kb aarhi ho? ❤️</h2>
+                <div class="button-group">
+                    <button id="soonBtn" class="glow-button" onclick="handleSoon()">Soon</button>
+                    <button id="neverBtn" class="glow-button secondary" onclick="handleNever()">Never</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Popup -->
+        <div id="finalPopup" class="popup hidden">
+            <div class="popup-content">
+                <p>Still waiting, sending you lots of love and kisses 💖</p>
+            </div>
+        </div>
+
+        <!-- Animation Container -->
+        <div id="animationContainer"></div>
+    </div>
+
+    <script>
+        // Section Transition Logic
+        function nextSection(sectionId) {
+            const currentSection = document.querySelector('.section.active');
+            const nextSection = document.getElementById(sectionId);
+
+            if (currentSection) {
+                currentSection.classList.remove('active');
+                // Pause all videos in the current section
+                const videos = currentSection.querySelectorAll('video');
+                videos.forEach(v => v.pause());
+                // Reset flips if any
+                const flips = currentSection.querySelectorAll('.flip-card');
+                flips.forEach(f => f.classList.remove('flipped'));
+            }
+
+            if (nextSection) {
+                nextSection.classList.add('active');
+                // We don't autoplay video immediately now, wait for flip
+            }
+        }
+
+        // Flip Card Logic
+        function toggleFlip(cardElement) {
+            cardElement.classList.toggle('flipped');
+            const video = cardElement.querySelector('video');
+            if (video) {
+                if (cardElement.classList.contains('flipped')) {
+                    video.play().catch(e => console.log('Autoplay blocked:', e));
+                } else {
+                    video.pause();
+                }
+            }
+        }
+
+        // Intro Screen Auto Transition (after 2-3 seconds)
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                nextSection('video1');
+            }, 3000); // 3 seconds for intro
+        });
+
+        // Interaction Logic: "Soon" vs "Never"
+        let soonBtnScale = 1;
+        const soonBtn = document.getElementById('soonBtn');
+        const neverBtn = document.getElementById('neverBtn');
+        const threshold = 6; // Fewer clicks for better UX
+        let neverClicks = 0;
+
+        function handleNever() {
+            neverClicks++;
+            soonBtnScale += 0.8; // More aggressive scaling
+            soonBtn.style.transform = `scale(${soonBtnScale})`;
+            
+            // Optional: Move the Never button randomly to make it harder to click
+            const x = Math.random() * 40 - 20;
+            const y = Math.random() * 40 - 20;
+            neverBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+            // Logic for overlapping and triggering "Soon"
+            if (neverClicks >= threshold) {
+                handleSoon();
+            }
+        }
+
+        function handleSoon() {
+            // Hide buttons and show final effect
+            const btnGroup = document.querySelector('.button-group');
+            btnGroup.style.opacity = '0';
+            setTimeout(() => btnGroup.classList.add('hidden'), 500);
+            
+            document.querySelector('.question').innerText = "Yaaaay! 💙";
+            document.querySelector('.question').style.fontSize = "2.5rem";
+            document.querySelector('.question').style.transition = "all 0.5s ease";
+
+            // Trigger Heart Animation
+            createHeartRain();
+
+            // Show final popup after a short delay
+            setTimeout(() => {
+                const popup = document.getElementById('finalPopup');
+                popup.classList.remove('hidden');
+                popup.style.animation = 'popupFadeIn 0.8s ease-out forwards';
+            }, 1500);
+        }
+
+        // Heart & Kiss Animation (Blue Hearts 💙 & Kisses 💋)
+        function createHeartRain() {
+            const container = document.getElementById('animationContainer');
+            const heartCount = 60; // Slightly more for variety
+            const emojis = ['💙', '💋', '😘', '💖'];
+
+            for (let i = 0; i < heartCount; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                    heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+                    heart.style.opacity = Math.random() * 0.5 + 0.5; // Ensure they are visible
+                    container.appendChild(heart);
+
+                    // Remove emoji after animation finishes
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 80); // Faster intervals
+            }
+        }
+
+        // Handle video visibility for autoplay
+        document.addEventListener('visibilitychange', () => {
+            const activeSection = document.querySelector('.section.active');
+            if (!activeSection) return;
+
+            const activeFlippedCard = activeSection.querySelector('.flip-card.flipped');
+            if (activeFlippedCard) {
+                const video = activeFlippedCard.querySelector('video');
+                if (video) {
+                    if (document.hidden) {
+                        video.pause();
+                    } else {
+                        video.play().catch(e => console.log('Autoplay blocked:', e));
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
